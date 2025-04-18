@@ -1,0 +1,48 @@
+body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+#main {
+    width: 60%;
+    border: 1px solid silver;
+    border-width: 0 1px 0 1px;
+    height: 100vh;
+    margin: auto;
+}
+
+#menu {
+    text-align: center;
+    background-color: black;
+}
+
+#menu a {
+    display: inline-block;
+    color: white;
+    padding-right: 10px;
+    text-align: center;
+}
+
+#menu a:hover {
+    background-color: white;
+    color: black;
+    box-shadow: 3px 3px silver;
+}
+
+#title {
+    text-align: center;
+    display: grid;
+}
+
+#title h1 {
+    margin: auto;
+    color:black;
+    font-size: 90px;
+    text-shadow: 3px 3px grey;
+    padding-bottom: 10px;
+}
+
+#login {
+    padding: 10px;
+}
