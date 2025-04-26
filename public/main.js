@@ -1,7 +1,55 @@
-function randomKey(username, pasword) {
+let titles = {
+    "asymmetric": "Asymmetric encryption",
+    "random": "Symmetric encryption",
+    "signature": "Request signature",
+    "enumeration": "Using external tools",
+    "client-side": "Client-side validation bypass"
+}
+
+let descriptions = {
+    "asymmetric": `Here the login credentials are encrypted using 
+    asymmetric encryption <b>RSA</b> with a dynamic public key
+    (that can change at any request) returned by the server.
+    <a href="#">See the bypass</a>`,
+    "random": `Here the login credentials are encrypted using
+    symmetric encryption with a random per request generated key.
+    The key is shared with the server in a custom header.
+    <b>Server's response is encrypted with the same random key</b>
+    <br><a href="#">See bypass</a>`,
+    "signature": `Not all requests are "protected" by encryption only
+    some developers sign their requests (in the front of course)
+    <br><a href="#">See bypass</a>`,
+    "enumeration": `<i>Crypto Stripper</i> not only can be used to leverage
+    burp's own tools, but it can be used with external tools like fuzzers, 
+    SQLMap and your own scripts.
+    <br>
+    Your mission here is to find the user
+    <br><a href="#">See bypass</a>`,
+    "client-side": `Sometimes you just need to bypass client-side validations.
+    But the developers are way smarter that any attacker and server responses
+    are encrypted...
+    <br>
+    Only a selected few can access the secret. Can you?
+    <br>
+    <a href="">See bypass</a>
+    `
+}
+
+const functions = {
+    "asymmetric": asymmetric,
+    "random": randomKey,
+    "signature": signature,
+    "enumeration": enumeration,
+    "client-side": clientSide
+}
+
+let endpoint = "";
+
+function randomKey(username, password) {
     var key = CryptoJS.lib.WordArray.random(32).toString()
+    key = "testing"
     var encUser = CryptoJS.AES.encrypt(username, key).toString()
-    var encPass = CryptoJS.AES.encrypt(pasword, key).toString()
+    var encPass = CryptoJS.AES.encrypt(password, key).toString()
 
     fetch("random", {
         method: "post",
@@ -51,6 +99,42 @@ function enumeration(username) {
     )
 }
 
+async function asymmetric(username, password) {
+    let encrypt = new JSEncrypt()
+
+    let handshakeQuery = await fetch("handshake", {method: "post"});
+    let handshake = await handshakeQuery.json();
+
+    console.log(handshake);
+
+    if (handshake["publicKey"]) {
+        encrypt.setPublicKey(handshake["publicKey"]);
+        let enc = encrypt.encrypt(username)
+        let body = JSON.stringify({password: enc})
+        fetch("asymmetric", {
+            method: "post",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: body
+        })
+    }
+}
+
+function clientSide(username, password) {
+    alert("eyou");
+}
+
 function login() {
-    console.log("login")
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+    functions[endpoint](user, pass);
+}
+
+function selection(source) {
+    endpoint = source;
+    let title = titles[source];
+    let description = descriptions[source];
+    document.getElementById("selectiontitle").innerHTML = title;
+    document.getElementById("description").innerHTML = description;
 }

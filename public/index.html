@@ -6,22 +6,26 @@
         </title>
         <link rel="stylesheet" href="index.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js" integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js" integrity="sha512-94ncgEEqkuZ4yNTFmu2dSn1TJ6Ij+ANQqpR7eLVU99kzvYzu6UjBxuVoNHtnd29R+T6nvK+ugCVI698pbyEkvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="main.js"></script>
     </head>
 
     <body>
         <div id="main">
             <div id="title">
-                <h1>Crypto Stripper Playground</h1>
+                <h1><a href="" target="_blank">Crypto Stripper Playground</a></h1>
             </div>
             <div id="menu">
-                <a href="#">Random KEY</a>
-                <a href="#">RSA</a>
-                <a href="#">Signature</a>
-                <a href="#">More than simply encryption</a>
+                <a href="#" onclick="selection('random')">Random KEY</a>
+                <a href="#" onclick="selection('asymmetric')">RSA</a>
+                <a href="#" onclick="selection('signature')">Signature</a>
+                <a href="#" onclick="selection('client-side')">Client-side validation</a>
+                <a href="#" onclick="selection('enumeration')">User enumeration</a>
             </div>
             <div id="login">
+                <h3><div id="selectiontitle"></div></h3>
                 <div id="description"></div>
+                <br>
                 <label for="username">Username:</label>
                 <input type="text" id="username">
                 <br>

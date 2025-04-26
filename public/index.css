@@ -2,44 +2,56 @@ body {
     height: 100%;
     padding: 0;
     margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #10141A;
+    color: green;
 }
 
 #main {
     width: 60%;
-    border: 1px solid silver;
-    border-width: 0 1px 0 1px;
     height: 100vh;
     margin: auto;
+    background-color: #171C29;
 }
 
 #menu {
     text-align: center;
-    background-color: black;
+    background-color: #10141A;
+    padding: 10px;
 }
 
 #menu a {
     display: inline-block;
-    color: white;
+    color: gray;
     padding-right: 10px;
     text-align: center;
+    font-weight: bold;
 }
 
 #menu a:hover {
-    background-color: white;
+    background-color: silver;
     color: black;
     box-shadow: 3px 3px silver;
 }
 
-#title {
+#title, #title a {
     text-align: center;
     display: grid;
+    color: gray;
+    text-decoration: none;
+}
+
+#title a:hover {
+    color: gray;
+    text-decoration: none;
 }
 
 #title h1 {
+    font-family: 'Courier New', Courier, monospace;
     margin: auto;
-    color:black;
-    font-size: 90px;
-    text-shadow: 3px 3px grey;
+    color:grey;
+    font-size: min(8vw, 95px);
+    text-shadow: max(-0.7vw, -7px) min(0.15vw, 1px) grey;
     padding-bottom: 10px;
 }
 
