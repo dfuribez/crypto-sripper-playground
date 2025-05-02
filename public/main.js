@@ -153,4 +153,7 @@ function selection(source) {
     let description = descriptions[source];
     document.getElementById("selectiontitle").innerHTML = title;
     document.getElementById("description").innerHTML = description;
+    document.getElementById("response").innerText = ""
+    document.getElementById("username").value = ""
+    document.getElementById("password").value = ""
 }
