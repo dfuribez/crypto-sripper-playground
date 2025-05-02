@@ -46,8 +46,7 @@ SwIDAQAB
 -----END PUBLIC KEY-----`;
 
 function decryptAES(enc, key) {
-    let dec = CryptoJS.AES.decrypt(enc, key).toString(CryptoJS.enc.Utf8);
-    return dec
+    return CryptoJS.AES.decrypt(enc, key).toString(CryptoJS.enc.Utf8);
 }
 
 app.use(express.static("public"));
@@ -56,8 +55,11 @@ app.use(bodyParser.json());
 app.post("/random", function(req, res) {
     let key = req.headers["x-key"];
     console.log(req.body)
-    let password = req.body.password
-    res.json({dec: decryptAES(password, key)})
+    let password = decryptAES(req.body.password, key)
+    let username = decryptAES(req.body.username, key)
+
+    let response = `Received: username ${username} with password ${password}`
+    res.send(CryptoJS.AES.encrypt(response, key).toString())
 });
 
 app.post("/signed", function(req, res) {
@@ -100,6 +102,10 @@ app.get("/enumeration", function(req, res) {
     } else {
         res.status(400).send({message: "user not found"})
     }
+});
+
+app.post("/clientSide", function(req, res) {
+    res.status(500).send("error");
 });
 
 app.listen(PORT, function() {
