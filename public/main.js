@@ -11,20 +11,24 @@ let descriptions = {
     asymmetric encryption <b>RSA</b> with a dynamic public key
     (that can change at any request) returned by the server.
     <a href="#">See the bypass</a>`,
+
     "random": `Here the login credentials are encrypted using
     symmetric encryption with a random per request generated key.
     The key is shared with the server in a custom header.
     <b>Server's response is encrypted with the same random key</b>
     <br><a href="#">See bypass</a>`,
+
     "signature": `Not all requests are "protected" by encryption only
     some developers sign their requests (in the front of course)
     <br><a href="#">See bypass</a>`,
+
     "enumeration": `<i>Crypto Stripper</i> not only can be used to leverage
     burp's own tools, but it can be used with external tools like fuzzers, 
     SQLMap and your own scripts.
     <br>
     Your mission here is to find the user
     <br><a href="#">See bypass</a>`,
+
     "client-side": `Sometimes you just need to bypass client-side validations.
     But the developers are way smarter that any attacker and server responses
     are encrypted...
@@ -45,13 +49,12 @@ const functions = {
 
 let endpoint = "";
 
-function randomKey(username, password) {
+async function randomKey(username, password) {
     var key = CryptoJS.lib.WordArray.random(32).toString()
-    key = "testing"
     var encUser = CryptoJS.AES.encrypt(username, key).toString()
     var encPass = CryptoJS.AES.encrypt(password, key).toString()
 
-    fetch("random", {
+    let request = await fetch("random", {
         method: "post",
         headers: {
             "x-key": key,
@@ -63,17 +66,23 @@ function randomKey(username, password) {
                 source: "2"
             })
     })
+
+    let response = await request.text();
+
+    let decrypted_response = CryptoJS.AES.decrypt(response, key).toString(CryptoJS.enc.Utf8)
+
+    document.getElementById("response").innerText = decrypted_response
+
 }
 
 function signature(username, password) {
     let key = "S3cr37";
     let random = CryptoJS.lib.WordArray.random(10).toString()
-    let body = JSON.stringify(
-        {
-            username: username,
+    let body = JSON.stringify({
+        username: username,
         password: password,
         source: "2"
-    })
+    });
 
     let toBeSigned = random + key + body;
 
@@ -121,8 +130,15 @@ async function asymmetric(username, password) {
     }
 }
 
-function clientSide(username, password) {
-    alert("eyou");
+async function clientSide(username, password) {
+    let request = await fetch("clientSide", {method: "post"});
+    let code = await request.status;
+
+    if (code == 500) {
+        document.getElementById("response").innerHTML = "Error"
+    } else {
+        document.getElementById("response").innerHTML = "Nice :)"
+    }
 }
 
 function login() {
