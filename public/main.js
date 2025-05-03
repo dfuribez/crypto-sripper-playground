@@ -114,18 +114,21 @@ async function asymmetric(username, password) {
     let handshakeQuery = await fetch("handshake", {method: "post"});
     let handshake = await handshakeQuery.json();
 
-    console.log(handshake);
 
     if (handshake["publicKey"]) {
         encrypt.setPublicKey(handshake["publicKey"]);
-        let enc = encrypt.encrypt(username)
-        let body = JSON.stringify({password: enc})
+
+        let encUser = encrypt.encrypt(username)
+        let encPass = encrypt.encrypt(password)
+
+        let body = {username: encUser, password: encPass}
+
         fetch("asymmetric", {
             method: "post",
             headers: {
                 "content-type": "application/json"
             },
-            body: body
+            body: JSON.stringify(body)
         })
     }
 }
