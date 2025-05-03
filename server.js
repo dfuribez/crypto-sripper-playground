@@ -82,10 +82,18 @@ app.post("/signed", function(req, res) {
 
 app.post("/asymmetric", function(req, res) {
     let password = Buffer.from(req.body.password, "base64");
+    let username = Buffer.from(req.body.username, "base64");
 
-    let dec = crypto.privateDecrypt({key: PRIVATE_KEY, padding:crypto.constants.RSA_PKCS1_PADDING}, password).toString();
+    let decParams = {
+        key: PRIVATE_KEY,
+        padding:crypto.constants.RSA_PKCS1_PADDING
+    }
 
-    res.send({dec: dec});
+    let decPassword = crypto.privateDecrypt(decParams, password).toString();
+    let decUsername = crypto.privateDecrypt(decParams, username).toString();
+
+    let message = `Received: username: ${decUsername} password: ${decPassword}`
+    res.send({response: message});
 });
 
 app.post("/handshake", function(req, res) {
