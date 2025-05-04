@@ -1,43 +1,30 @@
 let titles = {
     "asymmetric": "Asymmetric encryption",
-    "random": "Symmetric encryption",
+    "random": "Random KEY",
     "signature": "Request signature",
     "enumeration": "Using external tools",
     "client-side": "Client-side validation bypass"
 }
 
 let descriptions = {
-    "asymmetric": `Here the login credentials are encrypted using 
-    asymmetric encryption <b>RSA</b> with a dynamic public key
-    (that can change at any request) returned by the server.
-    <br>
-    <a target="_blank" href="https://github.com/dfuribez/crypto-stripper/wiki/Bypassing-asymmetric-encryption">Documentation</a>`,
+    "asymmetric": ``,
 
-    "random": `Here the login credentials are encrypted using
-    symmetric encryption with a random per request generated key.
-    The key is shared with the server in a custom header.
-    <b>Server's response is encrypted with the same random key</b>
-    <br><a href="#">Documentation.</a>`,
+    "random": `<br><a href="#">Documentation.</a>`,
 
-    "signature": `Not all requests are "protected" by encryption only
-    some developers sign their requests (in the front of course)
-    <br><a href="#">Documentation</a>`,
+    "signature": ``,
 
     "enumeration": `<i>Crypto Stripper</i> not only can be used to leverage
     burp's own tools, but it can be used with external tools like fuzzers, 
     SQLMap and your own scripts.
     <br>
-    Your mission here is to find the user
-    <br><a href="#">See bypass</a>`,
+    Your mission here is to find the user`,
 
-    "client-side": `Sometimes you just need to bypass client-side validations.
-    But the developers are way smarter that any attacker and server responses
-    are encrypted...
-    <br>
-    Only a selected few can access the secret. Can you?
-    <br>
-    <a href="">See bypass</a>
-    `
+    "client-side": ``
+}
+
+let links = {
+    "asymmetric": "https://github.com/dfuribez/crypto-stripper/wiki/Bypassing-asymmetric-encryption",
+    "random": "https://github.com/dfuribez/crypto-stripper/wiki/Bypassing-symmetric-encryption"
 }
 
 const functions = {
@@ -70,10 +57,10 @@ async function randomKey(username, password) {
 
     let response = await request.text();
 
-    let decrypted_response = CryptoJS.AES.decrypt(response, key).toString(CryptoJS.enc.Utf8)
+    let decrypted_response = CryptoJS.AES.decrypt(
+        response, key).toString(CryptoJS.enc.Utf8)
 
     document.getElementById("response").innerText = decrypted_response
-
 }
 
 function signature(username, password) {
@@ -179,8 +166,19 @@ function selection(source) {
     endpoint = source;
     let title = titles[source];
     let description = descriptions[source];
+
+    let link = document.createElement("a")
+    link.href = links[source]
+    link.textContent = "Documentation."
+    link.target = "_blank"
+
     document.getElementById("selectiontitle").innerHTML = title;
     document.getElementById("description").innerHTML = description;
+    document.getElementById("description").innerHTML = description;
+
+    document.getElementById("link").innerHTML = ""
+    document.getElementById("link").appendChild(link)
+    
     document.getElementById("response").innerText = ""
     document.getElementById("username").value = ""
     document.getElementById("password").value = ""
