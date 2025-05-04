@@ -58,3 +58,9 @@ body {
 #login {
     padding: 10px;
 }
+
+#description a {
+    display: block;
+    color: silver;
+    text-align: right;
+}

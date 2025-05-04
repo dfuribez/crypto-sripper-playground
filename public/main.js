@@ -10,17 +10,18 @@ let descriptions = {
     "asymmetric": `Here the login credentials are encrypted using 
     asymmetric encryption <b>RSA</b> with a dynamic public key
     (that can change at any request) returned by the server.
-    <a href="#">See the bypass</a>`,
+    <br>
+    <a target="_blank" href="https://github.com/dfuribez/crypto-stripper/wiki/Bypassing-asymmetric-encryption">Documentation</a>`,
 
     "random": `Here the login credentials are encrypted using
     symmetric encryption with a random per request generated key.
     The key is shared with the server in a custom header.
     <b>Server's response is encrypted with the same random key</b>
-    <br><a href="#">See bypass</a>`,
+    <br><a href="#">Documentation.</a>`,
 
     "signature": `Not all requests are "protected" by encryption only
     some developers sign their requests (in the front of course)
-    <br><a href="#">See bypass</a>`,
+    <br><a href="#">Documentation</a>`,
 
     "enumeration": `<i>Crypto Stripper</i> not only can be used to leverage
     burp's own tools, but it can be used with external tools like fuzzers, 
