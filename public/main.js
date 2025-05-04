@@ -145,13 +145,28 @@ async function asymmetric(username, password) {
 
 async function clientSide(username, password) {
     let request = await fetch("clientSide", {method: "post"});
-    let code = await request.status;
+    let code = request.status;
 
-    if (code == 500) {
-        document.getElementById("response").innerHTML = "Error"
+    let message;
+
+    if (code != 200) {
+        message = "Error, try again"
     } else {
-        document.getElementById("response").innerHTML = "Nice :)"
+        try {
+            let response = await request.json()
+            let username = CryptoJS.AES.decrypt(
+                response.username, "supersecret"
+            ).toString(CryptoJS.enc.Utf8)
+            if (username == "admin") {
+                message = "Well done :)"
+            } else {
+                message = "not authorized :("
+            }
+        } catch (err) {
+            message = err
+        }
     }
+    document.getElementById("response").innerText = message
 }
 
 function login() {
