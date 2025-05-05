@@ -43,7 +43,9 @@ dd1N0BvQGJr4fdrqDAAwVsNHtjvZ+BGDdIcMe7z8BzgUjRFNKyMxuW+EWg1e5Ab6
 uKFBKv0Ovzyvz3a0zUcGEOmAXwp/mqRco5rstAgevvbaMqkr/cqUaWJzhdpSbRX6
 8EIeiTyJxOCZKwa0GIxLFdLmj4W7c0fNwyXNozYoQDfKVmuJXSTY1bU6km+bmSc7
 SwIDAQAB
------END PUBLIC KEY-----`;
+-----END PUBLIC KEY-----
+`;
+
 
 function decryptAES(enc, key) {
     return CryptoJS.AES.decrypt(enc, key).toString(CryptoJS.enc.Utf8);
@@ -54,7 +56,7 @@ app.use(bodyParser.json());
 
 app.post("/random", function(req, res) {
     let key = req.headers["x-key"];
-    console.log(req.body)
+
     let password = decryptAES(req.body.password, key)
     let username = decryptAES(req.body.username, key)
 
@@ -67,15 +69,12 @@ app.post("/signed", function(req, res) {
     let signature = req.headers["x-signature"];
     let body = JSON.stringify(req.body)
 
-    let combined = h1 + "S3cr37" + body;
-    console.log(combined)
-
-    let calculated = CryptoJS.SHA256(combined).toString();
+    let calculated = CryptoJS.SHA256(h1 + "S3cr37" + body).toString();
 
     if (calculated !== signature) {
         res.status(500).send("error")
     } else {
-        res.send({status:"OK"})
+        res.send(`received: username: ${req.body.username} with password: ${req.body.password}`)
     }
 
 });
