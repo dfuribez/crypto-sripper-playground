@@ -3,7 +3,8 @@ let titles = {
   "random": "Random KEY",
   "signature": "Request signature",
   "enumeration": "Using external tools",
-  "client-side": "Client-side validation bypass"
+  "client-side": "Client-side validation bypass",
+  "path": "Path segment"
 }
 
 let descriptions = {
@@ -19,7 +20,9 @@ let descriptions = {
   <br>
   Your mission here is to find the user`,
 
-  "client-side": ``
+  "client-side": ``,
+
+  "path": ""
 }
 
 let links = {
@@ -32,7 +35,8 @@ const functions = {
   "random": randomKey,
   "signature": signature,
   "enumeration": enumeration,
-  "client-side": clientSide
+  "client-side": clientSide,
+  "path": path
 }
 
 let endpoint = "";
@@ -161,6 +165,17 @@ async function clientSide(username, password) {
     }
   }
   document.getElementById("response").innerText = message
+}
+
+async function path(username, password) {
+  let encUsername = btoa(CryptoJS.AES.encrypt(username, "secret").toString())
+  let encPassword = btoa(CryptoJS.AES.encrypt(password, "secret").toString())
+
+
+  let request = await fetch(`/path/${encUsername}/${encPassword}/login`);
+  let response = await request.json()
+
+  document.getElementById("response").innerText = response
 }
 
 function login() {

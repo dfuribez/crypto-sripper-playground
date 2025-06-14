@@ -69,7 +69,10 @@ app.post("/signed", function(req, res) {
     let signature = req.headers["x-signature"];
     let body = JSON.stringify(req.body)
 
+    console.log(h1 + "S3cr37" + body)
     let calculated = CryptoJS.SHA256(h1 + "S3cr37" + body).toString();
+
+    console.log(calculated)
 
     if (calculated !== signature) {
         res.status(500).send("error")
@@ -113,6 +116,17 @@ app.get("/enumeration", function(req, res) {
 
 app.post("/clientSide", function(req, res) {
     res.status(500).send("error");
+});
+
+
+app.get("/path/:user/:password/login", function(req, res) {
+    let encUsername = req.params.user;
+    let encPassword = req.params.password;
+
+    let username = decryptAES(Buffer.from(encUsername, "base64").toString(), "secret");
+    let password = decryptAES(Buffer.from(encPassword, "base64").toString(), "secret");
+
+    res.send({ message: `Received: username: ${username} password: ${password}` })
 });
 
 app.listen(PORT, function() {
