@@ -1,9 +1,10 @@
-var express = require("express");
-var CryptoJS = require("crypto-js");
-var bodyParser = require("body-parser");
+const express = require("express");
+const CryptoJS = require("crypto-js");
+const bodyParser = require("body-parser");
 const crypto = require("crypto");
 const https = require("https");
 const selfsigned = require("selfsigned");
+const path = require("path");
 
 var app = express();
 
@@ -52,7 +53,7 @@ function decryptAES(enc, key) {
   return CryptoJS.AES.decrypt(enc, key).toString(CryptoJS.enc.Utf8);
 }
 
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
 
 app.post("/random", function (req, res) {
