@@ -1,6 +1,6 @@
 # Crypto Stripper Playground
 
-This site implements multiple request/response encryption implementation for the purpose of learning and testing the Burp Suite [Crypto Stripper](https://github.com/dfuribez/crypto-stripper) extension.
+This site implements multiple request/response encryption mechanisms to learn and test the Burp Suite [Crypto Stripper](https://github.com/dfuribez/crypto-stripper) extension.
 
 
 ## Running the site
