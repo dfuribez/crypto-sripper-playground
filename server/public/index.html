@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Crypto Stripper Playground</title>
+        <link rel="stylesheet" href="index.css" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"
+            integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js"
+            integrity="sha512-94ncgEEqkuZ4yNTFmu2dSn1TJ6Ij+ANQqpR7eLVU99kzvYzu6UjBxuVoNHtnd29R+T6nvK+ugCVI698pbyEkvQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script src="main.js"></script>
+    </head>
+
+    <body onload="main()">
+        <div id="main">
+            <div id="title">
+                <h1>
+                    <a href="" target="_blank">Crypto Stripper Playground</a>
+                </h1>
+            </div>
+            <div id="menu">
+                <a href="#random" onclick="selection('random')">Random KEY</a>
+                <a href="#asymmetric" onclick="selection('asymmetric')">RSA</a>
+                <a href="#signature" onclick="selection('signature')"
+                    >Signature</a
+                >
+                <a href="#clientSide" onclick="selection('clientSide')"
+                    >Client-side validation</a
+                >
+                <a href="#enumeration" onclick="selection('enumeration')"
+                    >User enumeration</a
+                >
+            </div>
+            <div id="login">
+                <h3><div id="selectiontitle"></div></h3>
+                <div id="description"></div>
+                <br />
+                <label for="username">Username:</label>
+                <input type="text" id="username" />
+                <br />
+                <label for="password">Password:</label>
+                <input type="text" id="password" />
+                <br />
+                <button onclick="login()">Login</button>
+                <br /><br />
+                <div id="response"></div>
+
+                <a id="link"></a>
+            </div>
+        </div>
+    </body>
+</html>

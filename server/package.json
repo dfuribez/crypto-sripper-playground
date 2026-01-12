@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "crypto-js": "^4.2.0",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "selfsigned": "^2.4.1"
+  }
+}
