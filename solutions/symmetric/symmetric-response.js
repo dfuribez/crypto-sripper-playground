@@ -11,9 +11,11 @@ async function decrypt(body, headers, urlParameters, httpMethod, host, port, sec
   console.error("only use console.error to debug")
   console.error("the use of console.log will cause the process to fail")
 
+  // addIssue("name", "details", "remediation", "background", "remediation background")
+  // setAnnotation(color.NONE, "Add your annotations here")
   eventLog = ""
   intercept = null // null: follow proxy configuration, true: force interception, false: does not intercept
-  
+
   // If the request is issued by the proxy
   // return the original encrypted response
   if (source == "proxy") {
@@ -27,6 +29,7 @@ async function decrypt(body, headers, urlParameters, httpMethod, host, port, sec
 
   // Decrypt the body
   body = CryptoJS.AES.decrypt(body, key).toString(CryptoJS.enc.Utf8)
+
   return [body, headers, urlParameters, httpMethod, host, port, secure, path, statusCode, reasonPhrase, eventLog, intercept]
 }
 
@@ -37,7 +40,10 @@ async function encrypt(body, headers, urlParameters, httpMethod, host, port, sec
   console.error("only use console.error to debug")
   console.error("the use of console.log will cause the process to fail")
 
+  // addIssue("name", "details", "remediation", "background", "remediation background")
+  // setAnnotation(color.GREEN, "Add your annotations here")
   eventLog = ""
+
   return [body, headers, urlParameters, httpMethod, host, port, secure, path, statusCode, reasonPhrase, eventLog];
 }
 
@@ -59,16 +65,49 @@ function printJSON(body, headers, urlParameters, httpMethod, host, port, secure,
           reasonPhrase: reasonPhrase,
           httpMethod: httpMethod,
           path: path,
-          version: 3,
+          version: 5,
           host: host,
           port: port,
           secure: secure,
           eventLog: eventLog,
-          intercept: intercept
+          intercept: intercept,
+          issue: issue,
+          annotation: annotation
         }
       )
     ).toString("base64")
   )
+}
+
+let issue = null
+let annotation = null
+
+const color = {
+  BLUE: "BLUE",
+  CYAN: "CYAN",
+  GRAY: "GRAY",
+  GREEN: "GREEN",
+  MAGENTA: "MAGENTA",
+  NONE: "NONE",
+  ORANGE: "ORANGE",
+  PINK: "PINK",
+  RED: "RED",
+  YELLOW: "YELLOW"
+}
+
+function addIssue(name, detail, remediation, background, remediationBackground){
+  issue = {}
+  issue.name = name
+  issue.detail = detail
+  issue.remediation = remediation
+  issue.background = background
+  issue.remediationBackground = remediationBackground
+}
+
+function setAnnotation(color, note) {
+  annotation = {}
+  annotation.color = color
+  annotation.note = note
 }
 
 async function main() {
