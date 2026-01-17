@@ -3,6 +3,15 @@
 
 let fs = require("fs");
 
+const GENERATED_PUBLIC_KEY = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvMVeRezXHiwFCOKrp8B8hXyfEv/QqnsSqcjM7iNDyBWeBV5RrXS7HhkiEO9VpK+mLQ1iAEG/aKsNUqKFSkMR02TSr1tOOmDk8EVVd+QAMqN3V4HHJLNrFyXyzb9/kIwy3yNNSJBthziKs9Dh2BqsmuOx84t77fB53uB/aBYISeGr/slg+HghQWTkFTPD8iaWlDI6LJqP/3+Yz3JvHLkOCrOmP8qhMCagKxo3K/NFj7m3YR06NU0Ebc695TfHP2q2+cG7ePdB1Um+8ivdc58zdfeVUa9eOIddSGJWfQZ5dTNcwAyWK3XuzvQwKeIqSHzw/lDtqQswiU5nKaPoD5w65QIDAQAB
+-----END PUBLIC KEY-----
+`;
+
+const GENERATED_PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC8xV5F7NceLAUI4qunwHyFfJ8S/9CqexKpyMzuI0PIFZ4FXlGtdLseGSIQ71Wkr6YtDWIAQb9oqw1SooVKQxHTZNKvW046YOTwRVV35AAyo3dXgccks2sXJfLNv3+QjDLfI01IkG2HOIqz0OHYGqya47Hzi3vt8Hne4H9oFghJ4av+yWD4eCFBZOQVM8PyJpaUMjosmo//f5jPcm8cuQ4Ks6Y/yqEwJqArGjcr80WPubdhHTo1TQRtzr3lN8c/arb5wbt490HVSb7yK91znzN195VRr144h11IYlZ9Bnl1M1zADJYrde7O9DAp4ipIfPD+UO2pCzCJTmcpo+gPnDrlAgMBAAECggEADO1XL2KwuJg7IAilyK8d1+ZY3mw2VfZnqMjff89abPFOCQAUh9RenAkMlCxPqR9+OceY1nuqJ/jOyMHobtV4+wkEhI20JbtM8kdNOxCaEt2u5oc0pAbFZqhqoDxk9/kh4rYALN/3IDN3DClZzfrFpzXAkfUTX5AASIsHLpGTr7tuRA1eZzF71YAJEqGhEeeiUhYMGyj56FI2l+zkG2HadvYXk0HIse2vpsVbq0tvx0Tvc7KDQ890Ng5MGIlbFkTnU4lJYmatm29sHDTP13dHrUAJMORf9YxKEH01thpmcQ6joEc6JkTU6K2wVyIy9uFy0XAhBWDd5JLPD/95n4ODYQKBgQDDu7qnKdsz7JDCn6HEKuhIXRXjGcaQE2th4b+FvSoXjVcU1WckfCp63KNxOEHfO0o7xwnAw2rE4Zjhde4v0CTn52LioGWJPhC3y0nMHSDPXevFoJNIxWILrtlaU4dlPB84L7YakbVrTMa38cKJjW9wlyvn7p2Dpyfq4LFNGdW0BwKBgQD25Ni9Mo4m4vt00K6JY0Rz/gx4xeAID+TRgHAOxs4PFb5OQid7lCJjHOUQwKKfN2r+E1jlO+HKade8Ghl4bP3YoSqLhCUdUZLzUqNR5HY52nVP3ff8PfgqFT3LJWISM1AcaWMfG90Uw0jKih4jop2atI1hl6PKsNOuxvpFOmNWswKBgD5XqunXcRQmwyzaP2IF8Jor2+7LpOz64nb4ulHUoHWD9TqThhie28DqSbykGIcLkWdczARzuawf1tvo/gaIm1ip4Fsij3SZKiYAP+8dT/f8iD4YGRFSnRnvhRc6B6P89EynFa98vXYBrEGmZTn+rIIGBFwJKm5mbVZoXtCZ6/E9AoGBAPUMSI7omazBByF3anSUYUHbOle41lZKKCtEFnSkH6tbQmp8QKHocoT7DeQlvoLWx0vsugOz/rQff2+EXBlp3D3iIM8e1pOV/ouhTtaeMjXTvTILNvJWM3TZZl61+PPlmDLK6wXaawELnrjgg2+NHG6Lm/PsRTaNcVz8wzRo8mX/AoGAB1PkrrXatEY19WtMPM/VhBc7KA8Qdqa3EwMKNwH+ypUIjz5QqE76kQq5oK05Hz8IhM+Wd0akS2V9Rjb6hFxgbTsc2GsKOgBhKGPSNXVau5AzOi0zam3KxFZuorNuWrBFBrYN/pHWbygkC5eY6MXvlzevCCsCD7xGzbJWM700tqA=
+-----END RSA PRIVATE KEY-----
+`;
 
 // Function that performs the decryption
 // Learn more: https://github.com/dfuribez/crypto-stripper/wiki/Stripper-scripts
@@ -10,16 +19,20 @@ async function decrypt(body, headers, urlParameters, httpMethod, host, port, sec
   console.error("only use console.error to debug")
   console.error("the use of console.log will cause the process to fail")
 
+  // addIssue("name", "details", "remediation", "background", "remediation background")
+  // setAnnotation(color.NONE, "Add your annotations here")
   eventLog = ""
   intercept = null // null: follow proxy configuration, true: force interception, false: does not intercept
 
-    // If the endpoint is /handshake
+
+  // If the endpoint is /handshake
   if (url.includes("https://crypto-stripper-playground.local:3000/handshake")) {
     var jsonBody = JSON.parse(body)
     // Save the original key
     fs.writeFileSync("originalKey", jsonBody.publicKey)
     // Replace the key with the generated
-    body = JSON.stringify({publicKey: PUBLIC_KEY})
+    body = JSON.stringify({publicKey: GENERATED_PUBLIC_KEY})
+    setAnnotation(color.ORANGE, "Replaced key")
   }
 
   return [body, headers, urlParameters, httpMethod, host, port, secure, path, statusCode, reasonPhrase, eventLog, intercept]
@@ -32,9 +45,13 @@ async function encrypt(body, headers, urlParameters, httpMethod, host, port, sec
   console.error("only use console.error to debug")
   console.error("the use of console.log will cause the process to fail")
 
+  // addIssue("name", "details", "remediation", "background", "remediation background")
+  // setAnnotation(color.GREEN, "Add your annotations here")
   eventLog = ""
+
   return [body, headers, urlParameters, httpMethod, host, port, secure, path, statusCode, reasonPhrase, eventLog];
 }
+
 
 
 // DON'T TOUCH THIS
@@ -50,16 +67,49 @@ function printJSON(body, headers, urlParameters, httpMethod, host, port, secure,
           reasonPhrase: reasonPhrase,
           httpMethod: httpMethod,
           path: path,
-          version: 3,
+          version: 5,
           host: host,
           port: port,
           secure: secure,
           eventLog: eventLog,
-          intercept: intercept
+          intercept: intercept,
+          issue: issue,
+          annotation: annotation
         }
       )
     ).toString("base64")
   )
+}
+
+let issue = null
+let annotation = null
+
+const color = {
+  BLUE: "BLUE",
+  CYAN: "CYAN",
+  GRAY: "GRAY",
+  GREEN: "GREEN",
+  MAGENTA: "MAGENTA",
+  NONE: "NONE",
+  ORANGE: "ORANGE",
+  PINK: "PINK",
+  RED: "RED",
+  YELLOW: "YELLOW"
+}
+
+function addIssue(name, detail, remediation, background, remediationBackground){
+  issue = {}
+  issue.name = name
+  issue.detail = detail
+  issue.remediation = remediation
+  issue.background = background
+  issue.remediationBackground = remediationBackground
+}
+
+function setAnnotation(color, note) {
+  annotation = {}
+  annotation.color = color
+  annotation.note = note
 }
 
 async function main() {
